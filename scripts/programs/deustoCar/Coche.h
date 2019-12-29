@@ -143,11 +143,11 @@ class Coche {
                 if (p == el){
                     resultado = true; break;
                 }
-                string pr;
-                pr.push_back(p.back());
-                if (pr == el){
-                    throw invalid_argument("Invalid 'pintura'");
-                }
+                // string pr;
+                // pr.push_back(p.back());
+                // if (pr == el){
+                //     throw invalid_argument("Invalid 'pintura'");
+                // }
             }
             return resultado;
         }
