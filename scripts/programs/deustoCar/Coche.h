@@ -7,17 +7,17 @@ using namespace std;
 
 class Coche {
     public:
-        Coche(int modelop = 0, int motorp = 0, string pinturap = "rojo", bool descapotablep = false, vector<Extra> *extrasp[] = {}){ 
-            modelo = modelop;
-            motor = motorp;
-            pintura = isPinturaValid(pinturap) ? pinturap : throw invalid_argument("Please, provide a valid 'pintura' value.");
-            descapotable = isDescapotableValid(descapotablep) ? descapotablep : throw invalid_argument("Please provide a valid 'descapotable' value.");
-            extras = isExtrasValid(*extrasp) ? *extrasp : throw invalid_argument("Please provide a valid instance of extras.");
-
+        //Coche();
+        Coche(int modelop = 0, int motorp = 0, string pinturap = "rojo", bool descapotablep = false, vector<Extra> extrasp[] = {}){ 
+            isModeloValid(modelop) ? setModelo(modelop) : throw invalid_argument("Invalid 'modelo'");
+            isMotorValid(motorp) ? setMotor(motorp) : throw invalid_argument("Invalid 'motor'");
+            isPinturaValid(pinturap) ? setPintura(pinturap) : throw invalid_argument("Invalid 'pintura'");
+            isDescapotableValid(descapotablep) ? setDescapotable(descapotablep) : throw invalid_argument("Invalid 'descapotable'");
+            isExtrasValid(*extrasp) ? setExtras(*extrasp) : throw invalid_argument("Invalid 'extras'");
         };
         void toString(){
-            cout<<"Coche "<<getModelo()<<" "<<getDescapotable()<<" "<<pintura<<" con motor "<<getMotor()<<"."<<endl;
-            cout<<"Extras: "<<getExtras()<<endl;
+            cout<<"Coche "<<getModeloString(modelo)<<" "<<getDescapotable(descapotable)<<" "<<pintura<<" con motor "<<getMotorString(motor)<<"."<<endl;
+            cout<<"Extras: "<<_getExtras()<<endl;
         };
         double getPrecioBase(){
             double resultado;
@@ -53,14 +53,11 @@ class Coche {
             }
             return resultado;
         }
-    private:
-        int modelo;
-        int motor;
-        string pintura;
-        bool descapotable;
-        vector<Extra> extras;
-        string getModelo(){
-            switch(modelo){
+        vector<Extra> getExtras(){
+            return extras;
+        }
+        string getModeloString(int mod){
+            switch(mod){
                 case 0:
                     return "compacto"; break;
                 case 1:
@@ -70,11 +67,11 @@ class Coche {
                 case 3:
                     return "familiar"; break;
                 default:
-                    return "unknow"; break;
+                    return "compacto"; break;
             }
         };
-        string getMotor(){
-            switch(motor){
+        string getMotorString(int mot){
+            switch(mot){
                 case 0:
                     return "gasolina"; break;
                 case 1:
@@ -84,23 +81,58 @@ class Coche {
                 case 3:
                     return "electrico"; break;
                 default:
-                    return "unknow"; break;
+                    return "gasolina"; break;
             }
         }
-        string getDescapotable(){
-            if (descapotable){
+        string getDescapotable(bool des){
+            if (des){
                 return "descapotable";
             }else{
                 return "";
             }
         }
-        string getExtras(){
-            string result;
-            for (Extra element : extras){
-                result += element.getNombre();
-                result += ", ";
+        void setModelo(int newModelo){
+            modelo = isModeloValid(newModelo) ? newModelo : throw invalid_argument("Invalid 'modelo'");
+        }
+        void setMotor(int newMotor){
+            motor = isMotorValid(newMotor) ? newMotor : throw invalid_argument("Invalid 'modelo'");
+        }
+        void setPintura(string newPintura){
+            pintura = isPinturaValid(newPintura) ? newPintura : throw invalid_argument("Invalid 'pintura'");
+        }
+        void setDescapotable(bool newDescapotable){
+            descapotable = isDescapotableValid(newDescapotable) ? newDescapotable : throw invalid_argument("Invalid 'descapotable'");
+        }
+        void setExtras(vector<Extra> extras){
+            extras = isExtrasValid(extras) ? extras : throw invalid_argument("Invalid 'extras'");
+        }
+        bool isModeloValid(int mod){
+            switch(mod){
+                case 0:
+                    return true; break;
+                case 1:
+                    return true; break;
+                case 2:
+                    return true; break;
+                case 3:
+                    return true; break;
+                default:
+                    return false; break;
             }
-            return result;
+        }
+        bool isMotorValid(int mot){
+            switch(mot){
+                case 0:
+                    return true; break;
+                case 1:
+                    return true; break;
+                case 2:
+                    return true; break;
+                case 3:
+                    return true; break;
+                default:
+                    return false; throw invalid_argument("Invalid 'motor'"); break;
+            }
         }
         bool isPinturaValid(string p){
             bool resultado = false;
@@ -109,9 +141,32 @@ class Coche {
                 if (p == el){
                     resultado = true; break;
                 }
+                string pr;
+                pr.push_back(p.back());
+                if (pr == el){
+                    throw invalid_argument("Invalid 'pintura'");
+                }
             }
             return resultado;
         }
+    private:
+        int modelo;
+        int motor;
+        string pintura;
+        bool descapotable;
+        vector<Extra> extras;
+        
+        
+        
+        string _getExtras(){
+            string result;
+            for (Extra element : extras){
+                result += element.getNombre();
+                result += ", ";
+            }
+            return result;
+        }
+        
         bool isDescapotableValid(bool des){
             if (des == true || des == false){
                 return true;
@@ -129,6 +184,5 @@ class Coche {
                 }
             }
             return result;
-
         }
 };

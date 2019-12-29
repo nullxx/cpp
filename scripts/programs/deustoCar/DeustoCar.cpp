@@ -8,16 +8,32 @@ class DeustoCar{
     public:
     void registrarVentas(vector<Coche> aCoches = {}, vector<Extra> aExtras = {}){
         int modelo; int motor; string pintura; bool descapotable;
-        cout<<"Introduce el modelo: "; cin>>modelo; cout<<endl;
-        cout<<"Introduce el motor: "; cin>>motor; cout<<endl;
-        cout<<"Introduce la pintura elegida: "; cin>>pintura; cout<<endl;
-        cout<<"Descapotable (true, false): "; cin>>descapotable; cout<<endl;
-
+        Coche startInstanceCoche = Coche();
+        cout<<"Introduce los detalles del coche:"<<endl;
+        cout<<"Modelo (0: compacto/1: deportivo/2: berlina/3: familiar): "; cin>>modelo; // try {startInstanceCoche.getModelo(modelo);}catch(const exception& e){cerr <<e.what();}; cout<<endl;
+        cout<<"Introduce el motor: "; cin>>motor;// try {Coche().getMotor(motor);}catch(const exception& e){cerr <<e.what();}; cout<<endl;
+        cout<<"Introduce la pintura elegida: "; cin>>pintura; //try {Coche().isPinturaValid(pintura);}catch(const exception& e){cerr <<e.what();}; cout<<endl;
+        cout<<"Descapotable (true, false): "; cin>>descapotable;// try {Coche().getDescapotable(descapotable);}catch(const exception& e){cerr <<e.what();}; cout<<endl;
+        try
+        {
+            Coche(modelo, motor, pintura, descapotable);
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << '\n';
+        }
+        
         cout<<"Seleccionado: \n    modelo: "<<modelo<<"\n    motor: "<<motor<<"\n    pintura"<<"\n    descapotable: "<<descapotable<<endl;
     }
     void mostrarIngresos(vector<Coche> aCoches = {}){
+        double total = 0;
         for (Coche coche : aCoches){
-           cout<< coche.getPrecioBase();
+            total += coche.getPrecioBase();
+            for (Extra extra: coche.getExtras()){
+                total += extra.getPrecio() * extra.getPromocion();
+            }
+           cout<< coche.getPrecioBase()<<endl;
+           coche.getExtras();
         }
     }
 };
@@ -42,8 +58,11 @@ int main()
     aExtras.push_back(*new Extra("Piloto automático", 8000, 1));
 
     vector<Coche> aCoches = {};
-    aCoches.push_back(new Coche(0, 0, "rojo", false, aExtras));
-   // DeustoCar().registrarVentas(aCoches, aExtras);
-   DeustoCar().mostrarIngresos(aCoches);
+    aCoches.push_back(Coche(0, 0, "rojo", false, &aExtras));
+    aCoches.push_back(Coche(0, 0, "rojo", false, &aExtras));
+    aCoches.push_back(Coche(0, 0, "rojo", false, &aExtras));
+    aCoches.push_back(Coche(0, 0, "rojo", false, &aExtras));
+    DeustoCar().registrarVentas(aCoches, aExtras);
+  // DeustoCar().mostrarIngresos(aCoches);
     return 0;
 }
