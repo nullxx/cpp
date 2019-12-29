@@ -7,7 +7,7 @@
 class DeustoCar{
     public:
         DeustoCar(){
-             cout<<"DeustoCar, tu concesionario de confianza."<<endl;
+            cout<<"DeustoCar, tu concesionario de confianza."<<endl;
         }
         vector<Coche> registrarVentas(vector<Coche> aCoches = {}, vector<Extra> aExtras = {}){
             int modelo = 0, motor = 0; string pintura = "rojo"; bool descapotable = true; vector<Extra> extras = {}; // inicializo
@@ -61,13 +61,11 @@ class DeustoCar{
                 if (total > lastIngreso){
                     lastIngreso = total;
                     lastIngresoCoche = coche;
-                    
                 }
             }
             cout<<"Máximo ingreso:"<<endl;
             lastIngresoCoche.toString();
             cout<<endl<<"Ingreso: "<<lastIngreso<<" €";
-
         }
     private:
         vector<Coche> cochesRegistrados;
@@ -91,10 +89,6 @@ int main()
     aExtras.push_back(*new Extra("Piloto automático", 8000, 1));
 
     vector<Coche> aCoches = {};
-    aCoches.push_back(Coche(0, 0, "rojo", false, &aExtras));
-    aCoches.push_back(Coche(0, 0, "rojo", false, &aExtras));
-    aCoches.push_back(Coche(0, 0, "rojo", false, &aExtras));
-    aCoches.push_back(Coche(0, 0, "rojo", false, &aExtras));
     aCoches = DeustoCar().registrarVentas(aCoches, aExtras);
     DeustoCar().mostrarIngresos(aCoches);
     return 0;
