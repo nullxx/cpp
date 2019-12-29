@@ -7,24 +7,41 @@
 class DeustoCar{
     public:
     void registrarVentas(vector<Coche> aCoches = {}, vector<Extra> aExtras = {}){
-        int modelo; int motor; string pintura; bool descapotable;
-        Coche startInstanceCoche = Coche();
-        cout<<"Introduce los detalles del coche:"<<endl;
-        cout<<"Modelo (0: compacto/1: deportivo/2: berlina/3: familiar): "; cin>>modelo; // try {startInstanceCoche.getModelo(modelo);}catch(const exception& e){cerr <<e.what();}; cout<<endl;
-        cout<<"Introduce el motor: "; cin>>motor;// try {Coche().getMotor(motor);}catch(const exception& e){cerr <<e.what();}; cout<<endl;
-        cout<<"Introduce la pintura elegida: "; cin>>pintura; //try {Coche().isPinturaValid(pintura);}catch(const exception& e){cerr <<e.what();}; cout<<endl;
-        cout<<"Descapotable (true, false): "; cin>>descapotable;// try {Coche().getDescapotable(descapotable);}catch(const exception& e){cerr <<e.what();}; cout<<endl;
-        try
-        {
-            Coche(modelo, motor, pintura, descapotable);
-        }
-        catch(const std::exception& e)
-        {
-            std::cerr << e.what() << '\n';
-        }
+        int modelo = 0, motor = 0; string pintura = "rojo"; bool descapotable = true; vector<Extra> extras = {}; // inicializo
+        bool modeloValid = false, motorValid = false, pinturaValid = false, descapotableValid = false, extrasSelectedAll = false;
+        Coche startInstanceCoche = Coche(modelo, motor, pintura, descapotable, &extras);
+        cout<<"Introduce los detalles del coche:"<<endl; 
+        while (!modeloValid){cout<<"Modelo (0: compacto/1: deportivo/2: berlina/3: familiar): "; cin>>modelo; if (startInstanceCoche.isModeloValid(modelo)){startInstanceCoche.setModelo(modelo);modeloValid = !modeloValid;}}
+        while (!motorValid){cout<<"Motor (0: gasolina/1: diesel/2: híbrido/3: eléctrico): "; cin>>motor; if (startInstanceCoche.isMotorValid(motor)){startInstanceCoche.setMotor(motor);motorValid = !motorValid;}}
+        while (!pinturaValid){cout<<"Color (rojo, negro, azul, azul metalizado, gris metalizado): "; cin>>pintura; if (startInstanceCoche.isPinturaValid(pintura)){startInstanceCoche.setPintura(pintura);pinturaValid = !pinturaValid;}}
+        while (!descapotableValid){cout<<"Descapotable (true/false): "; cin>>descapotable; if (startInstanceCoche.isDescapotableValid(descapotable)){startInstanceCoche.setDescapotable(descapotable);descapotableValid = !descapotableValid;}}
+        int e = 0;
+        cout<<"Extras: "<<endl;
+                while (!extrasSelectedAll){cout<<"Selecciona extra "<<e<<":"<<endl; 
         
-        cout<<"Seleccionado: \n    modelo: "<<modelo<<"\n    motor: "<<motor<<"\n    pintura"<<"\n    descapotable: "<<descapotable<<endl;
+        for (size_t i = 0; i < aExtras.size(); i++)
+        {
+            cout<<i<<". "<<aExtras[i].getNombre()<<endl;
+            if (i == aExtras.size()-1){
+                cout<<i+1<<". Salir"<<endl;
+                extrasSelectedAll = !extrasSelectedAll;
+            }
+        }
+    
+        
+       /* int selected = 0;
+        cout<<"¿Opcion? "; cin.get()>>selected; 
+        if (selected == aExtras.size()){
+            extrasSelectedAll = !extrasSelectedAll;
+        }else{
+            extras.push_back(aExtras[selected]);e++;
+        };*/
+        }
+
+
+        
     }
+
     void mostrarIngresos(vector<Coche> aCoches = {}){
         double total = 0;
         for (Coche coche : aCoches){

@@ -8,13 +8,15 @@ using namespace std;
 class Coche {
     public:
         //Coche();
-        Coche(int modelop = 0, int motorp = 0, string pinturap = "rojo", bool descapotablep = false, vector<Extra> extrasp[] = {}){ 
+        //using Coche::Coche;
+    Coche(int modelop = 0, int motorp = 0, string pinturap = "rojo", bool descapotablep = false, vector<Extra> extrasp[] = {}){ 
             isModeloValid(modelop) ? setModelo(modelop) : throw invalid_argument("Invalid 'modelo'");
             isMotorValid(motorp) ? setMotor(motorp) : throw invalid_argument("Invalid 'motor'");
             isPinturaValid(pinturap) ? setPintura(pinturap) : throw invalid_argument("Invalid 'pintura'");
             isDescapotableValid(descapotablep) ? setDescapotable(descapotablep) : throw invalid_argument("Invalid 'descapotable'");
             isExtrasValid(*extrasp) ? setExtras(*extrasp) : throw invalid_argument("Invalid 'extras'");
         };
+        //~Coche();
         void toString(){
             cout<<"Coche "<<getModeloString(modelo)<<" "<<getDescapotable(descapotable)<<" "<<pintura<<" con motor "<<getMotorString(motor)<<"."<<endl;
             cout<<"Extras: "<<_getExtras()<<endl;
@@ -149,6 +151,13 @@ class Coche {
             }
             return resultado;
         }
+        bool isDescapotableValid(bool des){
+            if (des == true || des == false){
+                return true;
+            }else{
+                return false;
+            }
+        }
     private:
         int modelo;
         int motor;
@@ -167,15 +176,10 @@ class Coche {
             return result;
         }
         
-        bool isDescapotableValid(bool des){
-            if (des == true || des == false){
-                return true;
-            }else{
-                return false;
-            }
-        }
+        
         bool isExtrasValid(vector<Extra> extrasp){
-            bool result = false;
+            bool result = true;
+
             for (Extra el : extrasp){
                 if(dynamic_cast<Extra*>(&el)){
                     result = true; break;
@@ -186,3 +190,4 @@ class Coche {
             return result;
         }
 };
+
